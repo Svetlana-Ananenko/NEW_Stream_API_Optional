@@ -19,7 +19,6 @@ public class EmployeeController {
     public EmployeeController(EmployeeServiceImpl employeeServiceImpl) {
         this.employeeServiceImpl = employeeServiceImpl;
     }
-
     @GetMapping(path = "/add")
     public ResponseEntity<String> addEmployee(@RequestParam("firstName") String firstName,
                                               @RequestParam("lastName") String lastName) {
@@ -30,7 +29,6 @@ public class EmployeeController {
             throw e;
         }
     }
-
     @GetMapping("/remove")
     public Employee remove(@RequestParam("firstName") String firstName,
                            @RequestParam("lastName") String lastName) {
