@@ -3,8 +3,10 @@ import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeAlreadyAddedE
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeNotFoundException;
 import com.work_Home_new.new_Stream_API_Optional.Service.Employee;
 import com.work_Home_new.new_Stream_API_Optional.Service.EmployeeServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeStorageIsFullException;
@@ -13,9 +15,11 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "/employee")
+
+    @Controller
 public class EmployeeController {
     private EmployeeServiceImpl employeeServiceImpl;
-
+        @Autowired
     public EmployeeController(EmployeeServiceImpl employeeServiceImpl) {
         this.employeeServiceImpl = employeeServiceImpl;
     }
