@@ -19,22 +19,18 @@ public class DepartmentController {
     public DepartmentController(EmployeeServiceNew employeeServiceNew) {
         this.employeeServiceNew = employeeServiceNew;
     }
-
     @GetMapping("/max-salary")
     public Employee maxSalaryDepartment(@RequestParam int department) {
         return employeeServiceNew.getEmployeeWithMaxSalary(department);
     }
-
     @GetMapping("/min-salary")
     public Employee minSalaryDepartment(@RequestParam int department) {
         return employeeServiceNew.getEmployeeWithMinSalary(department);
     }
-
     @GetMapping(value = "/all", params = {"department"})
     public Collection<Employee> allDepartment(@RequestParam int department) {
         return employeeServiceNew.employeesDepartment(department);
     }
-
     @GetMapping("/all")
     public Map<Integer, List<Employee>> all() {
         return employeeServiceNew.allEmployeesDepartments();
