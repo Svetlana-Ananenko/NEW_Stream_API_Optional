@@ -3,19 +3,25 @@ import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeAlreadyAddedE
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeNotFoundException;
 import com.work_Home_new.new_Stream_API_Optional.Service.Employee;
 import com.work_Home_new.new_Stream_API_Optional.Service.EmployeeServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeStorageIsFullException;
-
+import org.apache.commons.lang3.StringUtils;
 import java.util.Collection;
+
+import static org.apache.tomcat.util.IntrospectionUtils.capitalize;
 
 @RestController
 @RequestMapping(path = "/employee")
+
+    @Controller
 public class EmployeeController {
     private EmployeeServiceImpl employeeServiceImpl;
-
+        @Autowired
     public EmployeeController(EmployeeServiceImpl employeeServiceImpl) {
         this.employeeServiceImpl = employeeServiceImpl;
     }
@@ -23,6 +29,7 @@ public class EmployeeController {
     @GetMapping(path = "/add")
     public ResponseEntity<String> addEmployee(@RequestParam("firstName") String firstName,
                                               @RequestParam("lastName") String lastName) {
+
         try {
             Employee employee = employeeServiceImpl.addEmployee(firstName, lastName);
             return ResponseEntity.ok("Сотрудник " + firstName + " " + lastName + " добавлен");
@@ -34,12 +41,13 @@ public class EmployeeController {
     @GetMapping("/remove")
     public Employee remove(@RequestParam("firstName") String firstName,
                            @RequestParam("lastName") String lastName) {
-        try {
+              try {
             return employeeServiceImpl.removeEmployee(firstName, lastName);
         } catch (EmployeeNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
 
     @GetMapping(path = "/find")
     public Employee find(@RequestParam("firstName") String firstName,
@@ -52,6 +60,7 @@ public class EmployeeController {
         }
         return employeeServiceImpl.findEmployee(firstName, lastName);
     }
+
 
     @GetMapping
     public Collection<Employee> findAll() {

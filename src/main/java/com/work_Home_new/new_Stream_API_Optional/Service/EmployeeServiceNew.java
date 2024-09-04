@@ -2,15 +2,19 @@ package com.work_Home_new.new_Stream_API_Optional.Service;
 
 
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeNotFoundException;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 
+@Service
 public class EmployeeServiceNew implements EmployeeServiceNewInterface {
     private final EmployeeServiceImpl employeeServiceImpl;
 
@@ -18,7 +22,8 @@ public class EmployeeServiceNew implements EmployeeServiceNewInterface {
         this.employeeServiceImpl = employeeServiceImpl;
     }
 
-    @Override
+
+            @Override
     public Employee getEmployeeWithMaxSalary(int department) {
         return employeeServiceImpl.findAll().stream()
                 .filter(e -> e.getDepartment() == department)
@@ -47,23 +52,3 @@ public class EmployeeServiceNew implements EmployeeServiceNewInterface {
                 .collect(groupingBy(Employee::getDepartment));
     }
 }
-
-//public int getTotalSalary() {
-//    int totalSalary = 0;
-//    for (Employee employee : employees) {
-//        totalSalary += employee.getSalary();
-//    }
-//    return totalSalary;
-//}
-//
-//public int totalMonthlyAverageSalary() {
-//    int totalMonthlyAverageSalary = getTotalSalary() / employees.length;
-//    return totalMonthlyAverageSalary;
-//}
-//
-//public int departmentNumberGenerator() {
-//    java.util.Random random = new java.util.Random();
-//    int minimumScore = 1;
-//    int departmentNumberGenerator = random.nextInt(5) + minimumScore;
-//    return departmentNumberGenerator;
-//}

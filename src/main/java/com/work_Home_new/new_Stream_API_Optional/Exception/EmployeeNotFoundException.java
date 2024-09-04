@@ -8,6 +8,7 @@ public class EmployeeNotFoundException extends RuntimeException {
         super("Сотрудник не найден");
     }
 
+
     public EmployeeNotFoundException(String message) {
         super(message);
     }
