@@ -2,7 +2,9 @@ package com.work_Home_new.new_Stream_API_Optional.Service;
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeAlreadyAddedException;
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeNotFoundException;
 import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeStorageIsFullException;
+import com.work_Home_new.new_Stream_API_Optional.Exception.EmployeeValidNameException;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 
@@ -12,6 +14,7 @@ import java.util.*;
 public class EmployeeServiceImpl implements EmployeeService {
     private final int MAX_EMPLOYEES = 20;
     private final Map<String, Employee> employees = new HashMap<>();
+    public StringUtils listWithEmployees;
 
     @PostConstruct
     private void listWithEmployees() {
@@ -27,6 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         addEmployee("Дюша", "Кофеинов", 75_000, 3);
     }
 
+
     @Override
     public Employee addEmployee(String firstName, String lastName) {
         return null;
@@ -34,6 +38,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName, Integer salary, Integer department) {
+                if (!isValidName(firstName,lastName)) {
+                    throw new EmployeeValidNameException();
+                }
+
         if (employees.size() >= MAX_EMPLOYEES) {
             throw new EmployeeStorageIsFullException("Зарплаты на всех не хватит, макс. кол-во сотрудников - " + MAX_EMPLOYEES);
         }
@@ -50,9 +58,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+
     @Override
     public Employee removeEmployee(String firstName, String lastName, Integer salary, Integer department) {
         Employee employee = new Employee(firstName, lastName, salary, department);
+        if (!isValidName(firstName,lastName)) {
+            throw new EmployeeValidNameException();
+        }
         if (employees.containsKey(employee.getFullame())) {
             return employees.remove(employee.getFullame());
         }
@@ -64,9 +76,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+
     @Override
     public Employee findEmployee(String firstName, String lastName, Integer salary, Integer department) {
         Employee employee = new Employee(firstName, lastName, salary, department);
+        if (!isValidName(firstName,lastName)) {
+            throw new EmployeeValidNameException();
+        }
         if (!employees.containsKey(employee.getFullame())) {
             throw new EmployeeNotFoundException("Такого сотрудника " + firstName + " " + lastName + " нет в базе, увы");
         }
@@ -77,6 +93,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Collection<Employee> findAll() {
         return Collections.unmodifiableCollection(employees.values());
     }
+
+
+    private boolean isValidName (String firstName, String lastName) {
+      return StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName);
+    }
+
+
 }
 
 

@@ -8,4 +8,5 @@ public class NewStreamApiOptionalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NewStreamApiOptionalApplication.class, args);
 	}
+
 }
